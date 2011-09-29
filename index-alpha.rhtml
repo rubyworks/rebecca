@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<% $stderr.sync = true %>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <META CONTENT="text/html; charset=<%= options.charset %>" http-equiv="Content-Type" />
+  <META NAME="generator" CONTENT="RDoc Rebecca <%= RDoc::Generator::Rebecca::VERSION %>">
+  <META NAME="timestamp" CONTENT="<%= Time.now %>">
+
+  <title><%= h title %></title>
+
+  <link rel="SHORTCUT ICON" href="assets/images/icons/ruby.png">
+
+  <!-- rdoc-plus header -->
+  <%= html_head %>
+  <!-- end rdoc-plus header -->
+
+  <link type="text/css" rel="stylesheet" href="assets/stylesheets/rdoc.css"  media="screen" />
+  <link type="text/css" rel="stylesheet" href="assets/stylesheets/nav.css"   media="screen" />
+  <link type="text/css" rel="stylesheet" href="assets/stylesheets/index.css" media="screen" />
+
+  <script type="text/javascript" charset="utf-8" src="assets/javascripts/main.js"></script>
+
+  <script type="text/javascript">
+    var current_menu;
+
+    $(document).ready( function() {
+      hookHighlightSyntax();
+	    hookSourceViews();
+	    hookDebuggingToggle();
+	    hookQuickSearch();
+	    highlightLocationTarget();
+
+	    $('ul.link-list a').bind("click", highlightClickTarget);
+    });
+  </script>
+</head>
+
+<body class="indexpage">
+
+<div id="main">
+
+  <!-- HEADER -->
+  <div id="header">
+    <div class="title-box">
+      <h2><a href="index.html"><%= h title %></a></h2>
+      <h1>
+        <img src="assets/images/icons/project.png" align="absmiddle">&nbsp;
+        <a href="index.html">Alphabetical Index</a>
+      </h1>
+    </div>
+
+    <%= include_template '_dropdown.rhtml', {:context => file, :rel_prefix => '.'} %>
+  </div>
+
+  <!-- INDEX -->
+  <div id="document">
+    <div id="index-section">
+      <%= include_template '_content.rhtml', {:context => file, :rel_prefix => rel_prefix} %>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <%= include_template '_footer.rhtml', {:context => file, :rel_prefix => rel_prefix} %>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+#index {
+  padding: 20px;
+}
+
+#index h2 {
+  border-bottom: 1px solid #ccc;
+}
+
+#index li {
+  font-size: 14px;
+  padding: 2px;
+  margin-left: -3px;
+  height: 18px;
+  background: url(../images/icons/bullet.png) no-repeat left 4px;
+  color: #666;
+}
+
+#index li.method {
+  padding-left: 20px;
+  background: url(../images/icons/method.png) no-repeat left 2px;
+}
+
+#index li.singleton {
+  padding-left: 20px;
+  background: url(../images/icons/singleton.png) no-repeat left 2px;
+}
+
+#index li.module {
+  padding-left: 20px;
+  background: url(../images/icons/module.png) no-repeat left 2px;
+}
+
+#index li.method .small {
+  font-size: 0.8em;
+  color: #777;
+}
+
+#index li.class {
+  padding-left: 20px;
+  background: url(../images/icons/class.png) no-repeat left 2px;
+}
+
+#index li.file {
+  background: url(../images/icons/file.png) no-repeat left 2px;
+  padding-left: 20px;
+  float: left;
+  min-width: 150px;
+}
+
+#index ul {
+  list-style: none;
+}
+

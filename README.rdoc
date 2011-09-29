@@ -1,0 +1,67 @@
+= Rebecca
+
+{Website}[http://rubyworks.github.com/rebecca] |
+{Development}[http://github.com/rubyworks/rebecca]
+
+
+== Welcome
+
+Ah, she will snare you. Here svelt lines, here 
+
+Rebecca harnesses the powers of the Shomen standard documentation model,
+and built on a jQuery powerhouse.
+
+
+== Features
+
+* Update a single portable file to update documentation.
+* Site disc footprint is extra small thanks to CDNs.
+* Personalize site design to best fit your project.
+* Test drive other's customizations with your own remote docs!
+
+
+== How To
+
+Simple as pie. Clone this repo to your project's webite directory
+(or `gh-pages` branch if you are crazy like that).
+
+  $ cd myproject
+  $ git clone http://rubyworks.github.com/rebecca.git site
+  $ cd site
+  $ rm -rf .git
+
+Generate the shomen `doc.json` file for you project to replace
+the example file (see Shomen project for more about this).
+
+  $ cd ..
+  $ shomen rdoc > site/doc.json
+
+Now fire up local directory webserver. The `shomen` command provides
+one (must have sinatra installed):
+
+  $ shomen server
+
+You can also view the files directly if your browser supports local
+ajax calls (Firefox works. Chrome? Not so much).
+
+  $ firefox index.html
+
+Now then, customize that template to your little hearts desire!
+
+
+== Legalease
+
+Copyright (c) 2011 Thomas Sawyer
+
+Available according to the terms of the *BSD-2-Clause* license.
+
+External libraries used:
+
+* {jQuery}[http://jquery.org]
+* {Quicksearch}[http://github.com/riklomas/quicksearch]
+* {Highlight}[http://github.com/isagalaev/highlight.js]
+* {Showdown}[http://github.com/coreyti/showdown]
+* {Rundown}[http://github.com/rubyworks/rundown]
+* {Keymaster}[http://github.com/madrobby/keymaster]
+* {Mousewheel}[http://plugins.jquery.com/project/mousewheel]
+

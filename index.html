@@ -8,6 +8,9 @@
 
   <link rel="SHORTCUT ICON" href="assets/images/icons/ruby.png">
 
+  <!-- Provide console simulation for firebug-less environments -->
+  <script src="assets/javascripts/firebug.js"></script>
+
   <!-- Provides JQuery framework. -->
   <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 
@@ -78,11 +81,11 @@
   <div class="button-list">
     <a href="index.html">README</a>
     <a href="index.html#alpha-index">INDEX</a>
-    <button class="a" onClick="menuToggle('#search-section');">Search</button> &nbsp;
+    <button class="a" onClick="Rebecca.menuToggle('#search-section');">Search</button> &nbsp;
 
-    <button onClick="menuOn('#fileindex-section');">documents</button> &nbsp;
-    <button onClick="menuOn('#classindex-section');">classes</button> &nbsp;
-    <button onClick="menuOn('#methodindex-section');">methods</button> &nbsp;
+    <button onClick="Rebecca.menuOn('#fileindex-section');">documents</button> &nbsp;
+    <button onClick="Rebecca.menuOn('#classindex-section');">classes</button> &nbsp;
+    <button onClick="Rebecca.menuOn('#methodindex-section');">methods</button> &nbsp;
 
     <button onClick="$('#fileindex-section').hide(); $('#classindex-section').show(); $('#methodindex-section').show();">. .</button> &nbsp;
     <button onClick="$('#fileindex-section').show(); $('#classindex-section').show(); $('#methodindex-section').show();">. . .</button> &nbsp;

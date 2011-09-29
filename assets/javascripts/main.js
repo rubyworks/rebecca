@@ -1,49 +1,3 @@
-
-// Add a tab shortcut for toggling menus.
-// TODO: fix focus
-function addMenuShorcut(){
-  shortcut.add("Tab",function() {
-    alert(current_menu);
-    switch(current_menu){
-    case 'undefined':
-      toggleMenu('#fileindex-section');
-      current_menu = 1;
-      break;
-    case 0:
-      toggleMenu('#methodindex-section');
-      toggleMenu('#fileindex-section');
-      current_menu = 1;
-      break;
-    case 1:
-      toggleMenu('#fileindex-section');
-      toggleMenu('#classindex-section');
-      current_menu = 2;
-      break;
-    case 2:
-      toggleMenu('#classindex-section');
-      toggleMenu('#methodindex-section');
-      current_menu = 0;
-      break;
-    }
-  });
-};
-
-/**
- * Originally Darkfish Page Functions
- * Copyright Michael Granger <mgranger@laika.com>
- */
-
-/* Provide console simulation for firebug-less environments */
-if (!("console" in window) || !("firebug" in console)) {
-    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-    "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
-
-    window.console = {};
-    for (var i = 0; i < names.length; ++i)
-        window.console[names[i]] = function() {};
-};
-
-
 /**
  * Unwrap the first element that matches the given @expr@ from the targets and return them.
  */
@@ -115,35 +69,6 @@ function highlightClickTarget( event ) {
 	};
 };
 
-// Show and hide navigation dropdown menus.
-function menuToggle(menuId,navClass){
-  if (navClass == null) { navClass='.nav' };
-  if(  $(menuId).is(":visible") == true ){
-    $(menuId).hide();
-  }
-  else{
-    // $(navClass).hide();
-    $(menuId).show();
-  }
-};
-
-function menuOn(menuId){
-  if (navClass == null) { navClass='.nav' };
-  $(menuId).show();
-};
-
-function menuOn(menuId,navClass){
-  if (navClass == null) { navClass='.nav' };
-  $(navClass).hide();
-  $(menuId).show();
-};
-
-function menuOff(menuId,navClass){
-  if (navClass == null) { navClass='.nav' };
-  if(  $(menuId).is(":visible") == true ){
-    $(navClass).hide();
-  }
-};
 
 function toggleReadmeAndIndex(local){
   document.location = local + "/index.html";

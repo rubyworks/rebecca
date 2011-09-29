@@ -1,3 +1,4 @@
+// Rebecca's Javascript
 
 Rebecca = {
 
@@ -149,13 +150,16 @@ Rebecca = {
 
   show: function(id) {
     var doc = Rebecca.documentation_by_id[id];
-console.log(id);
-console.log(doc);
+
+    console.debug(id);
+    console.debug(doc);
+
     if (doc != null) {
       var type = doc['!'];
       if(type == 'class'){ type = 'module' };
       $('#content').empty().append($('#template-' + type).tmpl(doc));
       $('#search-section').hide();
+      $('#content').find('pre code').each(function(i, e){hljs.highlightBlock(e, '  ')});
     } else {
       $('#content').empty().append('Not Found.');
     };
@@ -193,6 +197,40 @@ console.log(doc);
   markup: function(text,format) {
     convertor = new Rundown.converter();
     return(convertor.makeHtml(text));
+  },
+
+  //
+  
+  // Show and hide navigation dropdown menus.
+  menuToggle: function(menuId,navClass) {
+    if (navClass == null) { navClass='.nav' };
+    if(  $(menuId).is(":visible") == true ){
+      $(menuId).hide();
+    }
+    else{
+      // $(navClass).hide();
+      $(menuId).show();
+    }
+  },
+
+  //function menuOn(menuId){
+  //  if (navClass == null) { navClass='.nav' };
+  //  $(menuId).show();
+  //};
+
+  //
+  menuOn: function(menuId,navClass){
+    if (navClass == null) { navClass='.nav' };
+    $(navClass).hide();
+    $(menuId).show();
+  },
+
+  //
+  menuOff: function(menuId,navClass){
+    if (navClass == null) { navClass='.nav' };
+    if(  $(menuId).is(":visible") == true ){
+      $(navClass).hide();
+    }
   },
 
 }

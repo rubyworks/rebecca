@@ -81,14 +81,14 @@
   <div class="button-list">
     <a href="index.html">README</a>
     <a href="index.html#alpha-index">INDEX</a>
-    <button class="a" onClick="Rebecca.menuToggle('#search-section');">Search</button> &nbsp;
+    <button class="a" onClick="Rebecca.menuToggle('#search-section');">Search</button>: &nbsp;
 
     <button onClick="Rebecca.menuOn('#fileindex-section');">documents</button> &nbsp;
     <button onClick="Rebecca.menuOn('#classindex-section');">classes</button> &nbsp;
     <button onClick="Rebecca.menuOn('#methodindex-section');">methods</button> &nbsp;
 
-    <button onClick="$('#fileindex-section').hide(); $('#classindex-section').show(); $('#methodindex-section').show();">. .</button> &nbsp;
-    <button onClick="$('#fileindex-section').show(); $('#classindex-section').show(); $('#methodindex-section').show();">. . .</button> &nbsp;
+    <button onClick="Rebecca.menuOn('.code-section');">. .</button> &nbsp;
+    <button onClick="Rebecca.menuOn('.nav-section');">. . .</button> &nbsp;
   </div>
 
   <div id="search-section" class="nav1" style="display: none;">
@@ -96,12 +96,12 @@
     <tr>
       <!-- FILES -->
       {{if Rebecca.documentation['documents'].length > 0}}
-        <td id="fileindex-section" class="section project-section">
+        <td id="fileindex-section" class="section nav-section">
           <h3 class="section-header">Documents</h3>
           <ul>
           {{each(i,f) Rebecca.documentation['documents']}}
             <li class="file">
-              <a href="#${f.id}">${f.name}</a>
+              <a href="${Rebecca.href(f.id)}">${f.name}</a>
             </li>
           {{/each}}
           </ul>
@@ -109,7 +109,7 @@
       {{/if}}
 
       <!-- CLASSES/MODULES -->
-      <td id="classindex-section" class="section project-section" width="40%">
+      <td id="classindex-section" class="section nav-section code-section" width="40%">
         <h3 class="section-header">Class Index
           <span class="search-toggle">
             <img src="assets/images/icons/find.png" height="16" width="16" alt="[+]" title="show/hide quicksearch" />
@@ -133,7 +133,7 @@
       </td>
 
       <!-- METHODS -->
-      <td id="methodindex-section" class="section project-section" width=60%">
+      <td id="methodindex-section" class="section nav-section code-section" width=60%">
         <h3 class="section-header">Method Index
           <span class="search-toggle">
             <img src="assets/images/icons/find.png" height="16" width="16" alt="[+]" title="show/hide quicksearch" />
@@ -149,7 +149,7 @@
         {{each(i,m) Rebecca.documentation['methods']}}
           <li class="{{if m.singleton == true}}singleton{{else}}method{{/if}}" style="clear: both;">
             <span class="method-parent-aside">${m.namespace}</span>
-            <a href="#${m.id}">${m.name}</a>
+            <a href="${Rebecca.method_href(m)}">${m.name}</a>
           </li>
         {{/each}}
         </ul>
@@ -220,7 +220,7 @@
   <div id="documentation">
 
     <div id="description">
-      {{if !comment.match(/\s*\=/)}}
+      {{if !/^\s*[=#]/.test(comment)}}
         <h1>${name}</h1>
       {{/if}}
       {{html Rebecca.markup(comment)}}
@@ -242,7 +242,7 @@
     {{/if}}
 
     <!-- Namespace Contents -->
-    {{if ($item.classes || $item.modules)}}
+    {{if (classes.length > 0 || modules.length > 0)}}
     <div id="namespace-list-section" class="section">
       <h3 class="section-header">Namespace</h3>
       <ul class="link-list">
@@ -263,7 +263,7 @@
     {{/if}}
 
     <!-- Included Modules -->
-    {{if includes}}
+    {{if includes.length > 0}}
     <div id="includes-section" class="section">
       <h3 class="section-header">Included Modules</h3>
       <ul class="link-list">
@@ -277,8 +277,23 @@
     </div>
     {{/if}}
 
+    <!-- Extension Modules -->
+    {{if extensions.length > 0}}
+    <div id="extensions-section" class="section">
+      <h3 class="section-header">Extension Modules</h3>
+      <ul class="link-list">
+      {{each(i,x) extensions}}
+        ${doc = Rebecca.documentation_by_key[x],''}
+        <li class="module">
+          <a class="include" href="${doc.id}">${doc.name}</a>
+        </li>
+      {{/each}}
+      </ul>
+    </div>
+    {{/if}}
+
     <!-- Constants -->
-    {{if constants}}
+    {{if constants.length > 0}}
     <div id="constants-list" class="section">
       <h3 class="section-header">Constants</h3>
       <dl>
@@ -292,31 +307,28 @@
     {{/if}}
 
     <!-- Attributes -->
-    {{if accessors}}
-    <div id="attribute-method-details" class="method-section section">
+    {{if accessors.length > 0}}
+    <div id="attributes-list" class="method-section section">
       <h3 class="section-header">Attributes</h3>
 
       {{each(i,x) accessors}}
         ${docr = Rebecca.documentation_by_key[x],''}
         ${docw = Rebecca.documentation_by_key[x+'='],''}
-        <div id="${docr.id}-attribute-method" class="method-detail">
+        <div id="${docr.id}" class="method-detail">
           <a name="${docr.id}"></a>
           {{if docw}}
             <a name="${docw.id}"></a>
           {{/if}}
-          <div class="method-heading attribute-method-heading">
+          <div class="method-heading">
             <span class="method-name">${docr.name}</span>
             <span class="attribute-access-type">
-              [<a href="#${docr.id}">R</a>{{if docw}}<a href="#${docw.id}">W</a>{{/if}}]
+              [<a href="${Rebecca.method_href(docr)}">R</a>{{if docw}}<a href="${Rebecca.method_href(docw)}">W</a>{{/if}}]
             </span>
           </div>
 
           <div class="method-description">
-            {{if comment}}
-              <p class="missing-docs">(Not documented)</p>
-            {{else}}
-              ${comment}
-            {{/if}}
+            {{if docr}}<p>${docr.comment}</p>{{/if}}
+            {{if docw}}<p>${docw.comment}</p>{{/if}}
           </div>
         </div>
       {{/each}}
@@ -324,12 +336,12 @@
     {{/if}}
 
     <!-- Methods -->
-    {{if methods}}
+    {{if methods.length > 0}}
     ${divy = Rebecca.divy_methods(methods), ''}
 
     <div id="methods" class="method-section section">
       {{if divy['class']['public'].length}}
-      <div id="public-class-method-details">
+      <div id="public-class-method-details" class="class-method-list">
         <h3 class="section-header">Public Class Methods</h3>
         {{each(i,m) divy['class']['public']}}
           {{tmpl(m) "#template-method"}}
@@ -338,7 +350,7 @@
       {{/if}}
 
       {{if divy['class']['private'].length}}
-      <div id="private-class-method-details">
+      <div id="private-class-method-details" class="class-method-list">
         <h3 class="section-header">Private Class Methods</h3>
         {{each(i,m) divy['class']['private']}}
           {{tmpl(m) "#template-method"}}
@@ -347,7 +359,7 @@
       {{/if}}
 
       {{if divy['class']['protected'].length}}
-      <div id="protected-class-method-details">
+      <div id="protected-class-method-details" class="class-method-list">
         <h3 class="section-header">Protected Class Methods</h3>
         {{each(i,m) divy['class']['protected']}}
           {{tmpl(m) "#template-method"}}
@@ -356,7 +368,7 @@
       {{/if}}
 
       {{if divy['instance']['public'].length}}
-      <div id="public-instance-method-details">
+      <div id="public-instance-method-details" class="instance-method-list">
         <h3 class="section-header">Public Instance Methods</h3>
         {{each(i,m) divy['instance']['public']}}
           {{tmpl(m) "#template-method"}}
@@ -365,7 +377,7 @@
       {{/if}}
 
       {{if divy['instance']['private'].length}}
-      <div id="private-instance-method-details">
+      <div id="private-instance-method-details" class="instance-method-list">
         <h3 class="section-header">Private Instance Methods</h3>
         {{each(i,m) divy['instance']['private']}}
           {{tmpl(m) "#template-method"}}
@@ -374,7 +386,7 @@
       {{/if}}
 
       {{if divy['instance']['protected'].length}}
-      <div id="protected-instance-method-details">
+      <div id="protected-instance-method-details" class="instance-method-list">
         <h3 class="section-header">Protected Instance Methods</h3>
         {{each(i,m) divy['instance']['protected']}}
           {{tmpl(m) "#template-method"}}
@@ -408,11 +420,11 @@
 <!-- Template for a method -->
 
 <script type="text/x-jquery-tmpl" id="template-method">
-  <div id="${id}-method" class="method-detail {{if is_alias_for}}method-alias{{/if}}">
+  <div id="${id}" class="method-detail {{if is_alias_for}}method-alias{{/if}}">
     <a name="${id}"></a>
 
-    <div class="method-heading">
-      <span class="method-name">${name}</span>
+    <div class="method-heading" style="position: relative;">
+      <!-- <span class="method-name">${name}</span> -->
       {{each(i,f) interfaces}}
         <span class="method-callseq">${f.signature}</span>
       {{/each}}
@@ -420,11 +432,15 @@
     </div>
 
     <div class="method-description">
-      {{html Rebecca.markup(comment, format)}}
+      {{if comment}}
+        {{html Rebecca.markup(comment, format)}}
+      {{else}}
+        <p></p>
+      {{/if}}
 
       <div class="method-source-code" id="${id}-source">
         <pre>
-        ${source}
+          ${source}
         </pre>
       </div>
     </div>
@@ -460,6 +476,52 @@
       </a>
     </div>
     <br/><br/> 
+  </div>
+</script>
+
+
+<!-- Template for alphabetic index -->
+
+<script type="text/x-jquery-tmpl" id="template-index">
+  <div id="alphabetical-index">
+    <h1>Alphabetical Index</h1>
+
+    {{if Rebecca.documentation['documents'].length > 0}}
+    <div>
+      <h2>Documents</h2>
+      <div class="multi-column listing">
+        {{each(i,f) Rebecca.documentation['documents']}}
+          <div class="item file">
+            <a href="${Rebecca.href(f.id)}">${f.name}</a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+
+    <!-- CLASSES/MODULES -->
+    <div>
+      <h2>Class Index</h2>
+      <div class="multi-column listing">
+      {{each(i,m) Rebecca.documentation['modules']}}
+        <div class="item ${m['!']}">
+          <a href="#${m.id}">${m.path}</a>
+        </div>
+      {{/each}}
+      <divl>
+    </div>
+
+    <!-- METHODS -->
+    <div>
+      <h2>Method Index</h2>
+      <div class="multi-column listing">
+      {{each(i,m) Rebecca.documentation['methods']}}
+        <div class="item {{if m.singleton == true}}singleton{{else}}method{{/if}}">
+          <a href="${Rebecca.method_href(m)}" title="${m.namespace}">${m.name}</a>
+        </div>
+      {{/each}}
+      </div>
+    </div>
   </div>
 </script>
 

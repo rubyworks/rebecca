@@ -1,53 +1,36 @@
-#index {
-  padding: 20px;
+#alphabetical-index {
+  padding: 0 15px;
+  margin: 0 0 20px 0;
 }
 
-#index h2 {
+#alphabetical-index h2 {
   border-bottom: 1px solid #ccc;
 }
 
-#index li {
-  font-size: 14px;
-  padding: 2px;
-  margin-left: -3px;
-  height: 18px;
-  background: url(../images/icons/bullet.png) no-repeat left 4px;
+#alphabetical-index div.item {
+  padding: 0;
+  padding-left: 24px;
   color: #666;
+  font-size: 14px;
 }
 
-#index li.method {
-  padding-left: 20px;
-  background: url(../images/icons/method.png) no-repeat left 2px;
+#alphabetical-index div.method {
+  background: url(../images/icons/method.png) no-repeat left;
 }
 
-#index li.singleton {
-  padding-left: 20px;
-  background: url(../images/icons/singleton.png) no-repeat left 2px;
+#alphabetical-index div.singleton {
+  background: url(../images/icons/singleton.png) no-repeat left;
 }
 
-#index li.module {
-  padding-left: 20px;
-  background: url(../images/icons/module.png) no-repeat left 2px;
+#alphabetical-index div.module {
+  background: url(../images/icons/module.png) no-repeat left;
 }
 
-#index li.method .small {
-  font-size: 0.8em;
-  color: #777;
+#alphabetical-index div.class {
+  background: url(../images/icons/class.png) no-repeat left;
 }
 
-#index li.class {
-  padding-left: 20px;
-  background: url(../images/icons/class.png) no-repeat left 2px;
-}
-
-#index li.file {
-  background: url(../images/icons/file.png) no-repeat left 2px;
-  padding-left: 20px;
-  float: left;
-  min-width: 150px;
-}
-
-#index ul {
-  list-style: none;
+#alphabetical-index div.file {
+  background: url(../images/icons/file.png) no-repeat left;
 }
 

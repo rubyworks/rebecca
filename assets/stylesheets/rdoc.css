@@ -1,6 +1,8 @@
 /*
- * Original version from "Darkfish" Rdoc CSS
- * Copyright Michael Granger <ged@FaerieMUD.org>
+ * This file was original based on the rdoc.css file from 
+ * Michael Granger's Darkfish RDoc templates. It has changed
+ * a great deal since then and I beleive it can be radically 
+ * simplifed, but it is a rather rains taking endeavor.
  */
 
 /* Base Red is: color: #FF226C; */
@@ -21,6 +23,11 @@ body {
 
 #document {
   margin: 0;
+}
+
+.highlighted {
+  background: #fdd;
+  border: 1px solid #ecc;
 }
 
 /*
@@ -112,6 +119,10 @@ table.rdoc-list td {
   -webkit-box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 5px 5px;
   box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+#header #title h1 {
+  margin: 0;
 }
 
 #header #title h2 {
@@ -481,6 +492,10 @@ ul.link-list .type {
   color: #111;
 }
 
+#attributes-list .section-header {
+	background: url(../images/icons/attribute.png) no-repeat left center;
+}
+
 #constants-list .section-header {
 	background: url(../images/icons/constant.png) no-repeat left center;
 }
@@ -490,6 +505,10 @@ ul.link-list .type {
 }
 
 #includes-section .section-header {
+	background: url(../images/icons/module.png) no-repeat left center;
+}
+
+#extensions-section .section-header {
 	background: url(../images/icons/module.png) no-repeat left center;
 }
 
@@ -509,6 +528,10 @@ ul.link-list .type {
 	background: url(../images/icons/class.png) no-repeat left center;
 }
 
+#file-list-section ul {
+  margin-left: 0;
+}
+
 #file-list-section li {
   font-weight: bold;
   font-family: Monaco, "Andale Mono";
@@ -523,9 +546,15 @@ ul.link-list .type {
   background: url(../images/icons/file.png) no-repeat left center;
 }
 
-#public-instance-method-details .section-header {
+
+#documentation .instance-method-list .section-header {
   background: url(../images/icons/method.png) no-repeat left center;
 }
+
+#documentation .class-method-list .section-header {
+  background: url(../images/icons/singleton.png) no-repeat left center;
+}
+
 
 #namespace-list-section .section-header {
   background: url(../images/icons/module.png) no-repeat left center;
@@ -575,6 +604,7 @@ ul.link-list .type {
 	padding-right: 20px;
 	line-height: 20px;
 	background: url(../images/icons/zoom.png) no-repeat right top;
+  margin-right: 20px;
 }
 #documentation .method-detail:hover .method-click-advice {
 	visibility: visible;
@@ -604,9 +634,6 @@ ul.link-list .type {
 	margin-bottom: 0.5em;
 }
 
-#documentation .attribute-method-heading {
-	background: url(../images/icons/attribute.png) no-repeat left bottom;
-}
 #documentation #attribute-method-details .method-detail:hover {
 	background-color: transparent;
 	cursor: default;
@@ -644,9 +671,10 @@ div.method-source-code {
 
 div.method-source-code pre {
 	background: inherit;
-	padding: 10px;
+	padding: 1em;
 	color: #222;
 	overflow: hidden;
+  margin: 0;
 }
 
 /* @group Ruby keyword styles */
@@ -770,4 +798,13 @@ div.method-source-code pre {
 }
 
 /* @end */
+
+.multi-column {
+  column-count: 3;
+  column-gap: 1.5em;
+  -moz-column-count: 3;
+  -moz-column-gap: 1.5em;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 1.5em;
+}
 

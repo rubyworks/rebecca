@@ -7,21 +7,7 @@ $.fn.unwrap = function( expr ) {
   });
 };
 
-function showSource(e) {
-	var target = e.target;
-	var codeSections = $(target).
-		parents('.method-detail').
-		find('.method-source-code');
 
-	$(target).
-		parents('.method-detail').
-		find('.method-source-code').
-		slideToggle();
-};
-
-function hookSourceViews() {
-	$('.method-description,.method-heading').click(showSource);
-};
 
 function toggleDebuggingSection() {
 	$('.debugging-section').slideToggle();
@@ -29,9 +15,6 @@ function toggleDebuggingSection() {
 
 function hookDebuggingToggle() {
 	$('#debugging-toggle img').click( toggleDebuggingSection );
-};
-
-function hookHighlightSyntax(){
 };
 
 function highlightTarget( anchor ) {

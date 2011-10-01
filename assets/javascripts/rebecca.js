@@ -11,6 +11,9 @@ Rebecca = {
   current_menu: null,
 
   //
+  doc_url: null,
+
+  //
   documentation: {
     'all'    :   new Array(),
     'methods':   new Array(),
@@ -31,9 +34,14 @@ Rebecca = {
   //
   bootup: function() {
     var urlVars = Rebecca.getUrlVars();
-    var url     = urlVars['doc'] || 'doc.json';
+    var doc_url = urlVars['doc'] || 'doc.json';
+    var doc_id  = urlVars['id']
 
-    $.getJSON(url, function(data) {
+    $.getJSON(doc_url, function(data) {
+
+      // the url is good
+      Rebecca.doc_url = doc_url;
+
       // set up documentation
       $.each(data, function(key, doc) {
         doc.key = key;
@@ -70,41 +78,69 @@ Rebecca = {
 
       Rebecca.metadata = data['(metadata)'];
 
-      Rebecca.documentation['all'].sort(Rebecca.compareNames);
-
-      //$('#title').append($('#template-title').jqote(Rebecca.metadata));
-      //$('#dropdown').append($('#template-dropdown').jqote());
+      Rebecca.documentation['all']     = Rebecca.documentation['all'].sort(Rebecca.compareNames);
+      Rebecca.documentation['methods'] = Rebecca.documentation['methods'].sort(Rebecca.compareNames);
 
       $("#template-title").tmpl(Rebecca.metadata).appendTo("#title");
       $('#template-nav').tmpl({}).appendTo('#nav');
 
-      // CENTRAL CONTROL
+      // Routing
       $.history.init(function(hash){
-        if(hash == "") {          // TODO: use main setting how?
-          var readme = Rebecca.metadata['readme'];
-          if (readme == undefined) {
-            for(i in Rebecca.documentation['documents']) {
-              d = Rebecca.documentation['documents'][i];
-              if (d.name.match(/^README/i)) {
-                readme = d; break;
-              }
-            }
-          };
-          Rebecca.show(readme.id);
+        if (hash == "alpha-index") {
+          $('#content').empty().append($('#template-index').tmpl({}));
+        } else if(hash == "") {
+          Rebecca.show(Rebecca.readme().id);
         } else {
-          Rebecca.show(hash);   // restore the state from hash
+          var x      = hash.split('/',2);
+          var id     = x[0];
+          var anchor = x[1];
+          Rebecca.show(id,anchor); // restore the state from hash
         }
       });
 
+/*
       hookHighlightSyntax();
       hookSourceViews();
       hookDebuggingToggle();
       hookQuickSearch();
       highlightLocationTarget();
+*/
 
       $('ul.link-list a').bind("click", highlightClickTarget);
 
     });
+  },
+
+  // Determine primary "readme" document. This function first attempts
+  // to find the document specified by the metadata.readme property.
+  // If this document does not exist it will search for a document with
+  // a name matching /^README/.
+  readme: function() {
+    var readme = Rebecca.metadata['readme'];
+    if (readme == undefined) {
+      for(i in Rebecca.documentation['documents']) {
+        d = Rebecca.documentation['documents'][i];
+        if (d.name.match(/^README/i)) {
+          readme = d; break;
+        }
+      }
+    };
+    return(readme);
+  },
+
+  // This function constructs a valid Rebecca URI.
+  href: function(id,anchor) {
+    if (anchor != undefined) {
+      return('#' + id + '/' + anchor);
+    } else {
+      return('#' + id);
+    };
+  },
+
+  //
+  method_href: function(method) {
+    var ns = Rebecca.documentation_by_key[method.namespace];
+    return(Rebecca.href(ns.id, method.id));
   },
 
   //
@@ -148,7 +184,8 @@ Rebecca = {
     return vars;
   },
 
-  show: function(id) {
+  //
+  show: function(id,anchor) {
     var doc = Rebecca.documentation_by_id[id];
 
     console.debug(id);
@@ -160,8 +197,14 @@ Rebecca = {
       $('#content').empty().append($('#template-' + type).tmpl(doc));
       $('#search-section').hide();
       $('#content').find('pre code').each(function(i, e){hljs.highlightBlock(e, '  ')});
+      if(anchor != undefined) {
+        $('html, body').animate({ scrollTop: $('#'+anchor).offset().top }, 500);
+        $('.method-description,.method-heading').click(Rebecca.showSource);
+        $('.highlighted').removeClass('highlighted');
+        $('#'+anchor).addClass('highlighted');
+      }
     } else {
-      $('#content').empty().append('Not Found.');
+      $('#content').empty().append('<b>Not Found</b>');
     };
   },
 
@@ -220,9 +263,10 @@ Rebecca = {
 
   //
   menuOn: function(menuId,navClass){
-    if (navClass == null) { navClass='.nav' };
+    if (navClass == null) { navClass='.nav-section' };
     $(navClass).hide();
     $(menuId).show();
+    $('#search-section').show();
   },
 
   //
@@ -231,6 +275,20 @@ Rebecca = {
     if(  $(menuId).is(":visible") == true ){
       $(navClass).hide();
     }
+  },
+
+  showSource: function(e) {
+	  var target = e.target;
+	  var codeSections = $(target).
+		  parents('.method-detail').
+		  find('.method-source-code');
+
+	  $(target).
+		  parents('.method-detail').
+		  find('.method-source-code').
+		  slideToggle('fast', function(){
+        $(this).find('pre').each(function(i, e){hljs.highlightBlock(e, '  ')});
+    });
   },
 
 }

@@ -174,10 +174,13 @@
 
 <script type="text/x-jquery-tmpl" id="template-script">
   <div id="documentation">
-
+    {{if source}}
     <pre>
       ${source}
     </pre>
+    {{else}}
+    <iframe src="${source_uri}" />
+    {{/if}}
   </div>
 </script>
 

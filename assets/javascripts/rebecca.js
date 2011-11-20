@@ -195,6 +195,9 @@ Rebecca = {
       var type = doc['!'];
       if(type == 'class'){ type = 'module' };
       $('#content').empty().append($('#template-' + type).tmpl(doc));
+      if(type == 'script' && doc['source'] == null){
+        $('#script-source-code').load(doc['source_url']);
+      };
       $('#search-section').hide();
       $('#content').find('pre code').each(function(i, e){hljs.highlightBlock(e, '  ')});
       if(anchor != undefined) {

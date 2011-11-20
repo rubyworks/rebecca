@@ -174,12 +174,16 @@
 
 <script type="text/x-jquery-tmpl" id="template-script">
   <div id="documentation">
+    {{tmpl "#template-file-stats"}}
+    <h2>${name}</h2>
     {{if source}}
     <pre>
+    <code>
       ${source}
+    </code>
     </pre>
     {{else}}
-    <pre id="script-source-code"></pre>
+     <br/> <a href="${source_url}">Click here to view source code</a>.
     {{/if}}
   </div>
 </script>

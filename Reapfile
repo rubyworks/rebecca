@@ -6,17 +6,32 @@
 # The publish task uses the detroit-github plugin
 # from the Detroit project.
 
-trip 'publish' do
+desc 'publish website'
+task 'publish' do
+  require 'detroit'
+  require 'detroit-github'
+
+  # TODO: convert to file rules
+  mkdir_p 'web' unless directory?('web')
+  cp   'index.html', 'web/index.html'
+  cp   'doc.json',   'web/doc.json'
+  cp_r 'assets',     'web'
+
+  github = Detroit::GitHub.new(
+    :gh_pages => 'web'
+  )
+
+  github.publish
+end
+
+desc 'prepare website'
+task 'prepare' do
   require 'detroit'
   require 'detroit-github'
 
   github = Detroit::GitHub.new(
-    :sitemap => {
-      'index.html' => 'index.html',
-      'doc.json'   => 'doc.json',
-      'assets'     => 'assets'
-    }
+    :gh_pages => 'web'
   )
-  github.publish
-end
 
+  github.prepare
+end

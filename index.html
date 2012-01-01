@@ -122,7 +122,7 @@
         </fieldset>
         </form>
 
-        <ul class="link-list">
+        <ul>
         {{each(i,m) Rebecca.documentation['modules']}}
           <li class="${m['!']}">
             <a href="#${m.id}">${m.path}</a>
@@ -176,14 +176,18 @@
   <div id="documentation">
     {{tmpl "#template-file-stats"}}
     <h2>${name}</h2>
+    <br/>
+    {{if uri}}
+      <div class="scm-uri">
+        <a target="_blank" href="${uri}">Click here to view source code via repository</a>.
+      </div>
+    {{/if}}
     {{if source}}
     <pre>
     <code>
       ${source}
     </code>
     </pre>
-    {{else}}
-     <br/> <a href="${source_url}">Click here to view source code</a>.
     {{/if}}
   </div>
 </script>
@@ -196,7 +200,7 @@
     <h3 class="section-header">File Stats</h3>
     <dl>
       <dt class="modified-date">Last Modified</dt>
-      <dd class="modified-date">${modified}</dd>
+      <dd class="modified-date">${mtime}</dd>
 
       {{if requires}}
       <dt class="requires">Requires</dt>
@@ -206,14 +210,6 @@
           <li>${r.name}</li>
         {{/each}}
         </ul>
-      </dd>
-      {{/if}}
-
-      <!-- TODO: support for scm link -->
-      {{if scm_url}}
-      <dt class="scm-url">SCM URL</dt>
-      <dd class="scm-url">
-        <a target="_top" href="${scm_url}">${scm_url}</a>
       </dd>
       {{/if}}
     </dl>
@@ -256,13 +252,13 @@
         {{if modules}}
           {{each(i,x) modules}}
             ${doc = Rebecca.documentation_by_key[x],''}
-            <li class="${doc['!']}"><a href="${doc.id}">${doc.name}</a></li>
+            <li class="${doc['!']}"><a href="#${doc.id}">${doc.name}</a></li>
           {{/each}}
         {{/if}}
         {{if classes}}
           {{each(i,x) classes}}
             ${doc = Rebecca.documentation_by_key[x],''}
-            <li class="${doc['!']}"><a href="${doc.id}">${doc.name}</a></li>
+            <li class="${doc['!']}"><a href="#${doc.id}">${doc.name}</a></li>
           {{/each}}
         {{/if}}
       </ul>
@@ -276,8 +272,8 @@
       <ul class="link-list">
       {{each(i,x) includes}}
         ${doc = Rebecca.documentation_by_key[x],''}
-        <li class="module">
-          <a class="include" href="${doc.id}">${doc.name}</a>
+        <li>
+          <a href="#${doc.id}">${doc.name}</a>
         </li>
       {{/each}}
       </ul>
@@ -291,8 +287,8 @@
       <ul class="link-list">
       {{each(i,x) extensions}}
         ${doc = Rebecca.documentation_by_key[x],''}
-        <li class="module">
-          <a class="include" href="${doc.id}">${doc.name}</a>
+        <li>
+          <a href="#${doc.id}">${doc.name}</a>
         </li>
       {{/each}}
       </ul>
@@ -306,7 +302,7 @@
       <dl>
       {{each(i,x) constants}}
         ${doc = Rebecca.documentation_by_key[x],''}
-        <dt><a name="${doc.id}" href="${doc.id}">${doc.name}</a></dt>
+        <dt><a name="${doc.id}" href="#${doc.id}">${doc.name}</a></dt>
         <dd class="description">${doc.comment}</dd>
       {{/each}}
       </dl>
@@ -335,7 +331,9 @@
 
           <div class="method-description">
             {{if docr}}<p>${docr.comment}</p>{{/if}}
-            {{if docw}}<p>${docw.comment}</p>{{/if}}
+            {{if docw}}{{if docw.comment != docr.comment}}
+              <p>${docw.comment}</p>
+            {{/if}}{{/if}}
           </div>
         </div>
       {{/each}}

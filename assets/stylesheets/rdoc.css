@@ -323,8 +323,19 @@ dl.svninfo dt {
   font-weight: bold;
 }
 
+ul.link-list {
+  margin-left: 0;
+  padding-left: 2em;
+}
+
 ul.link-list li {
   white-space: nowrap;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.link-list li  a {
+  font-family: Monaco, "Andale Mono";
 }
 
 ul.link-list .type {
@@ -488,7 +499,7 @@ ul.link-list .type {
 #constants-list > dl dd,
 #attributes-list > dl dd {
   margin: 0 0 1em 0;
-  padding: 0;
+  padding: 10px 0;
   color: #111;
 }
 
@@ -502,6 +513,10 @@ ul.link-list .type {
 
 #constants-list a {
   font-family: Monaco, "Andale Mono";
+}
+
+#constants-list dd {
+  font-family: serif;
 }
 
 #includes-section .section-header {

@@ -128,6 +128,11 @@ Rebecca = {
     return(readme);
   },
 
+  //
+  webcvs: function() {
+    return(Rebecca.metadata['webcvs']);
+  },
+
   // This function constructs a valid Rebecca URI.
   href: function(id,anchor) {
     if (anchor != undefined) {

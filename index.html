@@ -199,8 +199,11 @@
   <div id="file-stats-section" class="section" style="float: right; width: 300px;">
     <h3 class="section-header">File Stats</h3>
     <dl>
+      <dt class="modified-date">Created</dt>
+      <dd class="modified-date">${created}</dd>
+
       <dt class="modified-date">Last Modified</dt>
-      <dd class="modified-date">${mtime}</dd>
+      <dd class="modified-date">${modified}</dd>
 
       {{if requires}}
       <dt class="requires">Requires</dt>
@@ -409,9 +412,15 @@
         {{each(i,f) files}}
           ${doc = Rebecca.documentation_by_key[f],''}
           <li class="file">
-            <a href="#${doc.id}" title="${doc.name}">
-              ${doc.path}
-            </a>
+            {{if doc.uri}}
+              <a href="${doc.uri}" title="${doc.name}">
+                ${doc.path}
+              </a>
+            {{else}}
+              <a href="#${doc.id}" title="${doc.name}">
+                ${doc.path}
+              </a>
+            {{/if}}
           </li>
         {{/each}}
         </ul>

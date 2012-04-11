@@ -1,0 +1,84 @@
+<!-- TODO: Maybe break this up into separate templates for each entry and move the bulk back to index.html.  -->
+
+<!-- @scope Rebecca.documentation -->
+
+<div class="button-list">
+  <a href="index.html">README</a>
+  <a href="index.html#alpha-index">INDEX</a>
+  <button class="a" onClick="Rebecca.menuToggle('#search-section');">Search</button>: &nbsp;
+
+  <button onClick="Rebecca.menuOn('#fileindex-section');">documents</button> &nbsp;
+  <button onClick="Rebecca.menuOn('#classindex-section');">classes</button> &nbsp;
+  <button onClick="Rebecca.menuOn('#methodindex-section');">methods</button> &nbsp;
+
+  <button onClick="Rebecca.menuOn('.code-section');">. .</button> &nbsp;
+  <button onClick="Rebecca.menuOn('.nav-section');">. . .</button> &nbsp;
+</div>
+
+<div id="search-section" class="nav1" style="display: none;">
+  <table>
+  <tr>
+    <!-- FILES -->
+    {{#if documents.length}}
+      <td id="fileindex-section" class="section nav-section">
+        <h3 class="section-header">Documents</h3>
+        <ul>
+        {{#documents}}
+          <li class="file">
+            <a href="{{calc_href id}}">{{name}}</a>
+          </li>
+        {{/documents}}
+        </ul>
+      </td>
+    {{/if}}
+
+    <!-- CLASSES/MODULES -->
+    <td id="classindex-section" class="section nav-section code-section" width="40%">
+      <h3 class="section-header">Class Index
+        <span class="search-toggle">
+          <img src="assets/images/icons/find.png" height="16" width="16" alt="[+]" title="show/hide quicksearch" />
+        </span>
+      </h3>
+      <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+      <fieldset>
+        <!-- <legend>Quicksearch</legend> -->
+        <input type="text" name="quicksearch" value="" class="quicksearch-field" />
+      </fieldset>
+      </form>
+
+      <ul>
+      {{#modules}}
+        <li class="{{[!]}}">
+          <a href="#{{id}}">{{path}}</a>
+        </li>
+      {{/modules}}
+      </ul>
+      <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+    </td>
+
+    <!-- METHODS -->
+    <td id="methodindex-section" class="section nav-section code-section" width=60%">
+      <h3 class="section-header">Method Index
+        <span class="search-toggle">
+          <img src="assets/images/icons/find.png" height="16" width="16" alt="[+]" title="show/hide quicksearch" />
+        </span>
+      </h3>
+      <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+      <fieldset>
+        <!-- <legend>Quicksearch</legend> -->
+        <input type="text" name="quicksearch" value="" class="quicksearch-field" />
+      </fieldset>
+      </form>
+      <ul>
+      {{#methods}}
+        <li class="{{#if singleton}}singleton{{else}}method{{/if}}" style="clear: both;">
+          <span class="method-parent-aside">{{namespace}}</span>
+          <a href="{{calc_href_method}">{{name}}</a>
+        </li>
+      {{/methods}}
+      </ul>
+    </td>
+
+  </tr>
+  </table>
+</div>

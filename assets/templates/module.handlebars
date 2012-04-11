@@ -1,0 +1,198 @@
+<!-- -->
+
+<div id="documentation">
+
+  <div id="description">
+    {{#unless_header}}
+      <h1>{{name}}</h1>
+    {{/unless_header}}
+    {{markup comment format}}
+  </div>
+
+  <!-- Parent Class -->
+  {{#if_class}}
+  <div id="parent-class-section" class="section">
+    <h3 class="section-header">Parent</h3>
+    <ul>
+      {{#if superclass}}
+        <li class="class">
+          <!-- TODO: if id exists -->
+          <a href="#{{calc_id superclass}}">{{superclass}}</a>
+        </li>
+      {{/if}}
+    </ul>
+  </div>
+  {{/if_class}}
+
+  <!-- Namespace Contents -->
+  {{#if_namespaces}}
+  <div id="namespace-list-section" class="section">
+    <h3 class="section-header">Namespace</h3>
+    <ul class="link-list">
+      {{#each modules}}
+        {{#doc}}<li class="{{[!]}}"><a href="#{{id}}">{{name}}</a></li>{{/doc}}
+      {{/each}}
+
+      {{#each classes}}
+        {{#doc}}<li class="{{[!]}}"><a href="#{{id}}">{{name}}</a></li>{{/doc}}
+      {{/each}}
+    </ul>
+  </div>
+  {{/if_namespaces}}
+
+  <!-- Included Modules -->
+  {{#if includes.length}}
+  <div id="includes-section" class="section">
+    <h3 class="section-header">Included Modules</h3>
+    <ul class="link-list">
+    {{#each includes}}
+      {{#doc}}<li><a href="#{{id}}">{{name}}</a></li>{{/doc}}
+    {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  <!-- Extension Modules -->
+  {{#if extensions.length}}
+  <div id="extensions-section" class="section">
+    <h3 class="section-header">Extension Modules</h3>
+    <ul class="link-list">
+    {{#each extensions}}
+      {{#doc}}<li><a href="#{{id}}">{{name}}</a></li>{{/doc}}
+    {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+  <!-- Constants -->
+  {{#if constants.length}}
+  <div id="constants-list" class="section">
+    <h3 class="section-header">Constants</h3>
+    <dl>
+    {{#each constants}}
+      {{#doc}}
+      <dt><a name="{{id}}" href="#{{id}}">{{name}}</a></dt>
+      <dd class="description">{{comment}}</dd>
+      {{/doc}}
+    {{/each}}
+    </dl>
+  </div>
+  {{/if}}
+
+  <!-- Attributes -->
+  {{#if accessors.length}}
+  <div id="attributes-list" class="method-section section">
+    <h3 class="section-header">Attributes</h3>
+
+    {{#each accessors}}
+      ${docr = Rebecca.documentation_by_key[x],''}
+      ${docw = Rebecca.documentation_by_key[x+'='],''}
+      <div id="${docr.id}" class="method-detail">
+        <a name="${docr.id}"></a>
+        {{if docw}}
+          <a name="${docw.id}"></a>
+        {{/if}}
+        <div class="method-heading">
+          <span class="method-name">${docr.name}</span>
+          <span class="attribute-access-type">
+            [<a href="${Rebecca.method_href(docr)}">R</a>{{if docw}}<a href="${Rebecca.method_href(docw)}">W</a>{{/if}}]
+          </span>
+        </div>
+
+        <div class="method-description">
+          {{if docr}}<p>${docr.comment}</p>{{/if}}
+          {{if docw}}{{if docw.comment != docr.comment}}
+            <p>${docw.comment}</p>
+          {{/if}}{{/if}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <!-- Methods -->
+  {{#if methods.length}}
+  ${divy = Rebecca.divy_methods(methods), ''}
+
+  <div id="methods" class="method-section section">
+    {{if divy['class']['public'].length}}
+    <div id="public-class-method-details" class="class-method-list">
+      <h3 class="section-header">Public Class Methods</h3>
+      {{each(i,m) divy['class']['public']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{if divy['class']['private'].length}}
+    <div id="private-class-method-details" class="class-method-list">
+      <h3 class="section-header">Private Class Methods</h3>
+      {{each(i,m) divy['class']['private']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{if divy['class']['protected'].length}}
+    <div id="protected-class-method-details" class="class-method-list">
+      <h3 class="section-header">Protected Class Methods</h3>
+      {{each(i,m) divy['class']['protected']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{if divy['instance']['public'].length}}
+    <div id="public-instance-method-details" class="instance-method-list">
+      <h3 class="section-header">Public Instance Methods</h3>
+      {{each(i,m) divy['instance']['public']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{if divy['instance']['private'].length}}
+    <div id="private-instance-method-details" class="instance-method-list">
+      <h3 class="section-header">Private Instance Methods</h3>
+      {{each(i,m) divy['instance']['private']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{if divy['instance']['protected'].length}}
+    <div id="protected-instance-method-details" class="instance-method-list">
+      <h3 class="section-header">Protected Instance Methods</h3>
+      {{each(i,m) divy['instance']['protected']}}
+        {{tmpl(m) "#template-method"}}
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <!-- In Files -->
+  <div id="file-list-section" class="section">
+    <h3 class="section-header">In Files</h3>
+    <div class="section-body">
+      <ul>
+      {{#each files}}
+        {{#doc}
+        <li class="file">
+          {{#if uri}}
+            <a href="{{uri}}" title="{{name}}">
+              {{path}}
+            </a>
+          {{else}}
+            <a href="#{{id}}" title="{{name}}">
+              {{path}}
+            </a>
+          {{/if}}
+        </li>
+        {{/doc}}
+      {{/each}}
+      </ul>
+    </div>
+  </div>
+
+</div>

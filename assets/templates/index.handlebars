@@ -1,0 +1,43 @@
+<!-- @scope Rebecca.documentation -->
+
+<div id="alphabetical-index">
+  <h1>Alphabetical Index</h1>
+
+  {{#if documents.length}}
+  <div>
+    <h2>Documents</h2>
+    <div class="multi-column listing">
+      {{#documents}}
+        <div class="item file">
+          <a href="{{calc_href id}}">{{name}}</a>
+        </div>
+      {{/documents}}
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- CLASSES/MODULES -->
+  <div>
+    <h2>Class Index</h2>
+    <div class="multi-column listing">
+    {{#modules}}
+      <div class="item {{[!]}}">
+        <a href="#{{id}}">{{path}}</a>
+      </div>
+    {{/modules}}
+    <divl>
+  </div>
+
+  <!-- METHODS -->
+  <div>
+    <h2>Method Index</h2>
+    <div class="multi-column listing">
+    {{#methods}}
+      <div class="item {{#if singleton}}singleton{{else}}method{{/if}}">
+        <a href="{{calc_href_method}}" title="{{namespace}}">{{name}}</a>
+      </div>
+    {{/methods}}
+    </div>
+  </div>
+</div>
+

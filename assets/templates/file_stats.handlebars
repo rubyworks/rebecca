@@ -1,0 +1,22 @@
+<div id="file-stats-section" class="section" style="float: right; width: 300px;">
+  <h3 class="section-header">File Stats</h3>
+  <dl>
+    <dt class="modified-date">Created</dt>
+    <dd class="modified-date">{{created}}</dd>
+
+    <dt class="modified-date">Last Modified</dt>
+    <dd class="modified-date">{{modified}}</dd>
+
+    {{#if requires}}
+    <dt class="requires">Requires</dt>
+    <dd class="requires">
+      <ul>
+      {{#requires}}
+        <li>{{name}}</li>
+      {{/requires}}
+      </ul>
+    </dd>
+    {{/if}}
+  </dl>
+</div>
+

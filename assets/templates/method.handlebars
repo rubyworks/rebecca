@@ -1,10 +1,10 @@
-<!-- -->
+<!-- template: method -->
 
 <div id="{{id}}" class="method-detail {{#if is_alias_for}}method-alias{{/if}}">
   <a name="{{id}}"></a>
 
   <div class="method-heading" style="position: relative;">
-    <!-- <span class="method-name">{{name}</span> -->
+    <!-- <span class="method-name">{{name}}</span> -->
     {{#interfaces}}
       <span class="method-callseq">{{signature}}</span>
     {{/interfaces}}
@@ -29,7 +29,7 @@
   <div class="aliases">
     Also aliased as:
     {{#aliases}}
-      <a href="#{{calc_id path}}">{{name}</a>
+      <a href="#{{calc_id path}}">{{name}}</a>
     {{/aliases}}
   </div>
   {{/if}}

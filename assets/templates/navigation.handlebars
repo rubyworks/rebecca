@@ -1,3 +1,5 @@
+<!-- template: navigation -->
+
 <!-- TODO: Maybe break this up into separate templates for each entry and move the bulk back to index.html.  -->
 
 <!-- @scope Rebecca.documentation -->
@@ -73,7 +75,7 @@
       {{#methods}}
         <li class="{{#if singleton}}singleton{{else}}method{{/if}}" style="clear: both;">
           <span class="method-parent-aside">{{namespace}}</span>
-          <a href="{{calc_href_method}">{{name}}</a>
+          <a href="{{calc_method_href}}">{{name}}</a>
         </li>
       {{/methods}}
       </ul>

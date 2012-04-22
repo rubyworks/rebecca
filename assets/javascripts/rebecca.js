@@ -118,12 +118,12 @@ Rebecca = {
   readme: function() {
     var readme = Rebecca.metadata['readme'];
     if (readme == undefined) {
-      for(i in Rebecca.documentation['documents']) {
+      for(var i=0; i < Rebecca.documentation['documents'].length; i++) {
         d = Rebecca.documentation['documents'][i];
         if (d.name.match(/^README/i)) {
           readme = d; break;
         }
-      }
+      };
     };
     return(readme);
   },
@@ -181,7 +181,7 @@ if (ns == undefined){ alert(method) };
   getUrlVars: function() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
+    for(var i=0; i < hashes.length; i++)
     {
       hash = hashes[i].split('=');
       vars.push(hash[0]);

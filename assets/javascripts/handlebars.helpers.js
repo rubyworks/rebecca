@@ -44,7 +44,6 @@ Handlebars.registerHelper('if_class', function(options) {
   };
 });
 
-
 //
 // If the `comment` starts with a header, as indicated by a `=` or `#`,
 // then do not render the given block.
@@ -57,7 +56,6 @@ Handlebars.registerHelper('unless_header', function(options) {
   };
 });
 
-
 //
 // This helper ensures there is a least one class or module for the
 // given block to be rendered.
@@ -69,7 +67,6 @@ Handlebars.registerHelper('if_namespaces', function(options) {
    return '';
  };
 });
-
 
 //
 // Iterate over each `list` entry, looking the item up in documentation,
@@ -143,7 +140,6 @@ Handlebars.registerHelper('if_methods_by', function(scope, visibility, options) 
   return out;
 });
 
-
 //
 // This helper iterates over methods with a given scope and visibility.
 // It is intended to be used in the context of `methods_categorized`.
@@ -158,7 +154,6 @@ Handlebars.registerHelper('methods_by', function(scope, visibility, options) {
 
   return out;
 });
-
 
 //
 // List of alphabet.

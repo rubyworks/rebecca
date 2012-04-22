@@ -81,13 +81,13 @@ Rebecca = {
       Rebecca.documentation['all']     = Rebecca.documentation['all'].sort(Rebecca.compareNames);
       Rebecca.documentation['methods'] = Rebecca.documentation['methods'].sort(Rebecca.compareNames);
 
-      $("#template-title").tmpl(Rebecca.metadata).appendTo("#title");
-      $('#template-nav').tmpl({}).appendTo('#nav');
+      $("#title").append(Handlebars.templates.title(Rebecca.metadata));
+      $('#nav').append(Handlebars.templates.navigation(Rebecca.documentation));
 
       // Routing
       $.history.init(function(hash){
         if (hash == "alpha-index") {
-          $('#content').empty().append($('#template-index').tmpl({}));
+          $('#content').empty().append(Handlebars.templates.index(Rebecca.documentation));
         } else if(hash == "") {
           Rebecca.show(Rebecca.readme().id);
         } else {
@@ -118,14 +118,19 @@ Rebecca = {
   readme: function() {
     var readme = Rebecca.metadata['readme'];
     if (readme == undefined) {
-      for(i in Rebecca.documentation['documents']) {
+      for(var i=0; i < Rebecca.documentation['documents'].length; i++) {
         d = Rebecca.documentation['documents'][i];
         if (d.name.match(/^README/i)) {
           readme = d; break;
         }
-      }
+      };
     };
     return(readme);
+  },
+
+  //
+  webcvs: function() {
+    return(Rebecca.metadata['webcvs']);
   },
 
   // This function constructs a valid Rebecca URI.
@@ -140,6 +145,7 @@ Rebecca = {
   //
   method_href: function(method) {
     var ns = Rebecca.documentation_by_key[method.namespace];
+if (ns == undefined){ alert(method) };
     return(Rebecca.href(ns.id, method.id));
   },
 
@@ -175,7 +181,7 @@ Rebecca = {
   getUrlVars: function() {
     var vars = [], hash;
     var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
+    for(var i=0; i < hashes.length; i++)
     {
       hash = hashes[i].split('=');
       vars.push(hash[0]);
@@ -194,15 +200,15 @@ Rebecca = {
     if (doc != null) {
       var type = doc['!'];
       if(type == 'class'){ type = 'module' };
-      $('#content').empty().append($('#template-' + type).tmpl(doc));
+      $('#content').empty().append(Handlebars.templates[type](doc));
       //if(type == 'script' && doc['source'] == null){
       //  $('#script-source-code').load(doc['source_url']);
       //};
       $('#search-section').hide();
       $('#content').find('pre code').each(function(i, e){hljs.highlightBlock(e, '  ')});
+      $('.method-description,.method-heading').click(Rebecca.showSource);
       if(anchor != undefined) {
         $('html, body').animate({ scrollTop: $('#'+anchor).offset().top }, 500);
-        $('.method-description,.method-heading').click(Rebecca.showSource);
         $('.highlighted').removeClass('highlighted');
         $('#'+anchor).addClass('highlighted');
       }

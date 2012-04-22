@@ -206,9 +206,9 @@ if (ns == undefined){ alert(method) };
       //};
       $('#search-section').hide();
       $('#content').find('pre code').each(function(i, e){hljs.highlightBlock(e, '  ')});
+      $('.method-description,.method-heading').click(Rebecca.showSource);
       if(anchor != undefined) {
         $('html, body').animate({ scrollTop: $('#'+anchor).offset().top }, 500);
-        $('.method-description,.method-heading').click(Rebecca.showSource);
         $('.highlighted').removeClass('highlighted');
         $('#'+anchor).addClass('highlighted');
       }

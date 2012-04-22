@@ -2,11 +2,15 @@
 
 ignore 'web'
 
+file 'source' do
+  run :compile
+end
+
 #
 # Run thin server to give site a spin.
 #
 desc "start thin server"
-task "server" do
+task "serve" do
   sh "thin start -A file"
 end
 
@@ -15,8 +19,11 @@ end
 #
 desc "compile templates"
 task 'compile' do
-  sh "handlebars assets/templates/*.handlebars -f assets/javascripts/handlebars.templates.js"
+  sh "handlebars source/templates/*.handlebars -f assets/javascripts/handlebars.templates.js"
 end
+
+
+# FIXME: from here down
 
 #
 # The publish task uses the detroit-github plugin
@@ -50,12 +57,12 @@ def github
     require 'detroit-github'
  
     Detroit::GitHub.new(
-      :folder  => 'web',
-      :sitemap => {
-        'index.html' => 'index.html',
-        'doc.json'   => 'doc.json',
-        'assets'     => 'assets'
-      }
+      :folder  => 'web'
+      #:sitemap => {
+      #  'index.html' => 'index.html',
+      #  'doc.json'   => 'doc.json',
+      #  'assets'     => 'assets'
+      #}
     )
   ) 
 end

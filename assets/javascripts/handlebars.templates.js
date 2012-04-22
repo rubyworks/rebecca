@@ -324,7 +324,7 @@ function program10(depth0,data) {
   stack1 = foundHelper || depth0.id;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "id", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\"></a>\n\n  <div class=\"method-heading\" style=\"position: relative;\">\n    <!-- <span class=\"method-name\">";
+  buffer += escapeExpression(stack1) + "\"></a>\n\n  <div class=\"method-heading\" style=\"position: relative;\" onclick=\"Rebecca.showSource(this);\">\n    <!-- <span class=\"method-name\">";
   foundHelper = helpers.name;
   stack1 = foundHelper || depth0.name;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -354,12 +354,12 @@ function program10(depth0,data) {
   stack1 = foundHelper || depth0.id;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "id", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "-source\">\n      <pre>\n        ";
+  buffer += escapeExpression(stack1) + "-source\">\n      <pre>";
   foundHelper = helpers.source;
   stack1 = foundHelper || depth0.source;
   if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
   else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "source", { hash: {} }); }
-  buffer += escapeExpression(stack1) + "\n      </pre>\n    </div>\n  </div>\n\n  ";
+  buffer += escapeExpression(stack1) + "</pre>\n    </div>\n  </div>\n\n  ";
   foundHelper = helpers.aliases;
   stack1 = foundHelper || depth0.aliases;
   stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.length);

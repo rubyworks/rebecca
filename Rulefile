@@ -2,7 +2,7 @@
 
 ignore 'web'
 
-file 'source' do
+file 'source/**/*' do
   run :compile
 end
 
@@ -22,20 +22,16 @@ task 'compile' do
   sh "handlebars source/templates/*.handlebars -f assets/javascripts/handlebars.templates.js"
 end
 
-
-# FIXME: from here down
-
 #
 # The publish task uses the detroit-github plugin
 # from the Detroit project.
 #
 desc 'publish website'
-task 'publish' do
-  # TODO: convert to file rules
-  #mkdir_p 'web' unless directory?('web')
-  #cp   'index.html', 'web/index.html'
-  #cp   'doc.json',   'web/doc.json'
-  #cp_r 'assets',     'web'
+task 'web:publish' do
+  mkdir_p 'web' unless directory?('web')
+  install 'index.html', 'web/index.html'
+  install 'doc.json', 'web/doc.json'
+  sync 'assets', 'web/assets'
 
   github.publish
 end
@@ -44,7 +40,7 @@ end
 #
 #
 desc 'prepare website'
-task 'prepare' do
+task 'web:prepare' do
   github.prepare
 end
 
@@ -55,7 +51,7 @@ def github
   @github ||= (
     require 'detroit'
     require 'detroit-github'
- 
+
     Detroit::GitHub.new(
       :folder  => 'web'
       #:sitemap => {
@@ -66,3 +62,4 @@ def github
     )
   ) 
 end
+
